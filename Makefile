@@ -40,7 +40,7 @@ rel: deps
 	rebar compile generate
 
 relclean:
-	rm -rf rel/mylittlepony
+	rm -rf rel/$(REPO)
 
 ##
 ## Developer targets
@@ -59,14 +59,14 @@ devclean: clean
 	rm -rf dev
 
 stage : rel
-	$(foreach dep,$(wildcard deps/*), rm -rf rel/mylittlepony/lib/$(shell basename $(dep))-* && ln -sf $(abspath $(dep)) rel/mylittlepony/lib;)
+	$(foreach dep,$(wildcard deps/*), rm -rf rel/$(REPO)/lib/$(shell basename $(dep))-* && ln -sf $(abspath $(dep)) rel/$(REPO)/lib;)
 
 ##
 ## Doc targets
 ##
 docs:
 	./rebar skip_deps=true doc
-	@cp -R apps/mylittlepony/doc doc/mylittlepony
+	@cp -R apps/$(REPO)/doc doc/$(REPO)
 
 APPS = kernel stdlib sasl erts ssl tools os_mon runtime_tools crypto inets \
 	xmerl webtool snmp public_key mnesia eunit syntax_tools compiler
@@ -120,7 +120,7 @@ archive_git = git archive --format=tar --prefix=$(1)/ HEAD | (cd $(2) && tar xf 
 
 # Checkout tag, fetch deps (so we don't have to do it multiple times) and collect
 # the version of all the dependencies into the MANIFEST_FILE
-CLONEDIR ?= mylittlepony-clone
+CLONEDIR ?= $(REPO)-clone
 MANIFEST_FILE ?= dependency_manifest.git
 get_dist_deps = mkdir distdir && \
                 git clone . distdir/$(CLONEDIR) && \
@@ -198,5 +198,5 @@ export PKG_VERSION REPO DISTNAME
 
 console:
 	rel/$(REPO)/bin/$(REPO) console \
-		-pa ../../deps/*/ebin
+		-pa ../../deps/pony_core/ebin
 
