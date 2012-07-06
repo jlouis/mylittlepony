@@ -25,7 +25,7 @@ testclean:
 test: deps compile testclean
 	@$(foreach dep, \
             $(wildcard deps/*), \
-                ./rebar eunit app=$(notdir $(dep)) \
+                rebar eunit app=$(notdir $(dep)) \
                     || echo "Eunit: $(notdir $(dep)) FAILED" >> $(TEST_LOG_FILE);)
 	rebar eunit skip_deps=true
 	@if test -s $(TEST_LOG_FILE) ; then \
@@ -53,7 +53,7 @@ devrel: dev1
 
 dev1:
 	mkdir -p dev
-	(cd rel && ../rebar generate skip_deps=true target_dir=../dev/$@ overlay_vars=vars/$@_vars.config)
+	(cd rel && rebar generate skip_deps=true target_dir=../dev/$@ overlay_vars=vars/$@_vars.config)
 
 devclean: clean
 	rm -rf dev
@@ -65,7 +65,7 @@ stage : rel
 ## Doc targets
 ##
 docs:
-	./rebar skip_deps=true doc
+	rebar skip_deps=true doc
 	@cp -R apps/$(REPO)/doc doc/$(REPO)
 
 APPS = kernel stdlib sasl erts ssl tools os_mon runtime_tools crypto inets \
