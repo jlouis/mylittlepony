@@ -36,8 +36,8 @@ test: deps compile testclean
 ##
 ## Release targets
 ##
-rel: deps
-	rebar compile generate
+rel: all
+	rebar generate skip_deps=true
 
 relclean:
 	rm -rf rel/$(REPO)
@@ -53,7 +53,7 @@ devrel: dev1
 
 dev1:
 	mkdir -p dev
-	(cd rel && ../rebar generate target_dir=../dev/$@ overlay_vars=vars/$@_vars.config)
+	(cd rel && ../rebar generate skip_deps=true target_dir=../dev/$@ overlay_vars=vars/$@_vars.config)
 
 devclean: clean
 	rm -rf dev
@@ -100,7 +100,7 @@ cleanplt:
 ##
 ## Version and naming variables for distribution and packaging
 ##
-REPO_TAG 	:= $(shell git describe --tags)
+REPO_TAG 	:= $(shell git describe --tags --always)
 
 # Split off repo name
 # Changes to 1.0.3 or 1.1.0pre1-27-g1170096 from example above
