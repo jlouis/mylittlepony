@@ -29,3 +29,6 @@ Pony is an experimental ircd in Erlang.
 * Handle `whois`
 * Handle `motd`
 * Handle `notice`
+
+* Split `handle_message` up into a part which does handling of the
+  functional parts and a part which has all the effects.
