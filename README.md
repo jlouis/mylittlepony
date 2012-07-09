@@ -27,6 +27,5 @@ Pony is an experimental ircd in Erlang.
 # TODO #
 
 * Handle `whois`
-* Handle `list`
 * Handle `motd`
 * Handle `notice`
